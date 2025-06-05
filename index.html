@@ -5,15 +5,15 @@
     <title>Kakao 지도 시작하기</title>
   </head>
   <body>
-    <div id="map" style="width: 500px; height: 400px"></div>
+    <div id="map" style="width: 100vw; height: 100vh"></div>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const appKey = params.get("appKey");
       const lat = params.get("lat");
       const lng = params.get("lng");
-      const width = params.get("width");
-      const height = params.get("height");
+      // const width = params.get("width");
+      // const height = params.get("height");
 
       const script = document.createElement("script");
       script.type = "text/javascript";
@@ -23,8 +23,8 @@
       script.onload = () => {
         kakao.maps.load(() => {
           const container = document.getElementById("map");
-          container.style.width = `${width ?? 500}px`;
-          container.style.height = `${height ?? 400}px`;
+          // container.style.width = `${width ?? 500}px`;
+          // container.style.height = `${height ?? 400}px`;
 
           const options = {
             center: new kakao.maps.LatLng(lat, lng),
