@@ -23,7 +23,7 @@ script.onload = () => {
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
-    print(">>>>>> bounds", bounds);
+    console.log(">>>>>> bounds", bounds);
   });
 };
 
