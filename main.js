@@ -8,6 +8,8 @@ script.type = "text/javascript";
 script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
 document.head.appendChild(script);
 
+let bounds;
+
 script.onload = () => {
   kakao.maps.load(() => {
     /** 지도 */
@@ -19,7 +21,7 @@ script.onload = () => {
     };
 
     const map = new kakao.maps.Map(mapContainer, mapOption);
-    const bounds = new kakao.maps.LatLngBounds();
+    bounds = new kakao.maps.LatLngBounds();
     print(">>>>>> bounds", bounds);
   });
 };
