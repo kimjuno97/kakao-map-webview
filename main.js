@@ -32,6 +32,7 @@ function setBounds() {
     // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
     map.setBounds(bounds);
   } catch (error) {
+    console.log(">>>>> error", error);
     // 에러 발생 시 Flutter에 전송
     window.mapError.postMessage(`${error.message} \n bounds: ${bounds}`);
   }
