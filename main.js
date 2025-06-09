@@ -22,10 +22,10 @@ script.onload = () => {
     };
 
     map = new kakao.maps.Map(mapContainer, mapOption);
-    bounds = new kakao.maps.LatLngBounds();
+    bounds = new kakao.maps.LatLngBounds(new kakao.maps.LatLng(lat, lng));
+
     // 예시: 좌표 추가
-    bounds.extend(new kakao.maps.LatLng(lat, lng));
-    console.log(">>>>>> bounds", bounds);
+    // bounds.extend(new kakao.maps.LatLng(lat, lng));
   });
 };
 
@@ -34,6 +34,7 @@ function setBounds() {
     // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
     // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
     map.setBounds(bounds);
+    map.setZoom(3);
   } catch (error) {
     console.log(">>>>> error", error);
     // 에러 발생 시 Flutter에 전송
