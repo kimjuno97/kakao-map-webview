@@ -23,6 +23,8 @@ script.onload = () => {
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
+    // 예시: 좌표 추가
+    bounds.extend(new kakao.maps.LatLng(lat, lng));
     console.log(">>>>>> bounds", bounds);
   });
 };
