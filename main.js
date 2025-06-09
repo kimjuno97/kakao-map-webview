@@ -10,21 +10,30 @@ document.head.appendChild(script);
 
 let map;
 let bounds;
+let marker;
 
 script.onload = () => {
   kakao.maps.load(() => {
     /** 지도 */
     const mapContainer = document.getElementById("map");
 
+    const center = new kakao.maps.LatLng(lat, lng);
+
     const mapOption = {
-      center: new kakao.maps.LatLng(lat, lng),
+      center: center,
       level: 3,
     };
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
+
+    marker = new kakao.maps.Marker({
+      position: center,
+    });
+    marker.setMap(map);
+
     // 예시: 좌표 추가
-    bounds.extend(new kakao.maps.LatLng(lat, lng));
+    bounds.extend(center);
   });
 };
 
