@@ -20,11 +20,19 @@ script.onload = () => {
 
     const map = new kakao.maps.Map(mapContainer, mapOption);
     const bounds = new kakao.maps.LatLngBounds();
-
-    window.setBounds = function () {
-      // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
-      // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-      map.setBounds(bounds);
-    };
+    print(">>>>>> bounds", bounds);
   });
 };
+
+function setBounds() {
+  try {
+    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+    map.setBounds(bounds);
+  } catch (error) {
+    // 에러 발생 시 Flutter에 전송
+    window.mapError.postMessage(`${error.message} \n bounds: ${bounds}`);
+  }
+}
+
+window.setBounds = setBounds;
