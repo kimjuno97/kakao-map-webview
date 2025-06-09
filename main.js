@@ -8,6 +8,7 @@ script.type = "text/javascript";
 script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
 document.head.appendChild(script);
 
+let map;
 let bounds;
 
 script.onload = () => {
@@ -20,7 +21,7 @@ script.onload = () => {
       level: 3,
     };
 
-    const map = new kakao.maps.Map(mapContainer, mapOption);
+    map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
     print(">>>>>> bounds", bounds);
   });
