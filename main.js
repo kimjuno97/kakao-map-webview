@@ -7,9 +7,9 @@ const level = levelStr ? parseInt(levelStr, 10) : 3;
 
 const width = params.get("width");
 const height = params.get("height");
-const elem = document.getElementById("para");
-elem.style.width = width;
-elem.style.height = height;
+const elem = document.getElementById("map");
+elem.style.width = `${width}px`;
+elem.style.height = `${height}px`;
 
 const script = document.createElement("script");
 script.type = "text/javascript";
