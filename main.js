@@ -5,11 +5,6 @@ const lng = params.get("lng");
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
 
-if (!appKey || !lat || !lng) {
-  console.error("필수 파라미터 누락");
-  return;
-}
-
 const script = document.createElement("script");
 script.type = "text/javascript";
 script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
