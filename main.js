@@ -2,6 +2,7 @@ const params = new URLSearchParams(window.location.search);
 const appKey = params.get("appKey");
 const lat = params.get("lat");
 const lng = params.get("lng");
+const level = params.get("level");
 
 const script = document.createElement("script");
 script.type = "text/javascript";
@@ -21,7 +22,7 @@ script.onload = () => {
 
     const mapOption = {
       center: center,
-      level: 1,
+      level: level ?? 1,
     };
 
     map = new kakao.maps.Map(mapContainer, mapOption);
