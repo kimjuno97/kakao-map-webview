@@ -5,6 +5,12 @@ const lng = params.get("lng");
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
 
+const width = params.get("width");
+const height = params.get("height");
+const elem = document.getElementById("para");
+elem.style.width = width;
+elem.style.height = height;
+
 const script = document.createElement("script");
 script.type = "text/javascript";
 script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
