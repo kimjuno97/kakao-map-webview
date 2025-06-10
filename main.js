@@ -21,7 +21,7 @@ script.onload = () => {
 
     const mapOption = {
       center: center,
-      level: 5,
+      level: 1,
     };
 
     map = new kakao.maps.Map(mapContainer, mapOption);
