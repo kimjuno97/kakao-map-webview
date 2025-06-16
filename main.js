@@ -40,6 +40,53 @@ script.onload = () => {
     marker.setMap(map);
     setZoomable(true);
     bounds.extend(center);
+
+    // 지도 중심 좌표가 바뀔 때마다 실행되는 콜백
+    kakao.maps.event.addListener(map, "center_changed", function () {
+      console.log("지도 중심이 바뀌었습니다!", map.getCenter());
+
+      const center = map.getCenter();
+
+      window.postMessage(
+        JSON.stringify({
+          type: "mapCenterChanged",
+          lat: center.getLat(),
+          lng: center.getLng(),
+        })
+      );
+    });
+
+    // 지도 줌 레벨이 바뀔 때마다 실행되는 콜백
+    kakao.maps.event.addListener(map, "zoom_changed", function () {
+      console.log("지도 줌이 바뀌었습니다!", map.getLevel());
+      // 원하는 로직 추가
+
+      const center = map.getCenter();
+
+      window.postMessage(
+        JSON.stringify({
+          type: "zoomChanged",
+          lat: center.getLat(),
+          lng: center.getLng(),
+        })
+      );
+    });
+
+    // 지도 영역이 바뀔 때마다 실행되는 콜백
+    kakao.maps.event.addListener(map, "bounds_changed", function () {
+      console.log("지도 영역이 바뀌었습니다!", map.getBounds());
+      // 원하는 로직 추가
+
+      const center = map.getCenter();
+
+      window.postMessage(
+        JSON.stringify({
+          type: "boundsChanged",
+          lat: center.getLat(),
+          lng: center.getLng(),
+        })
+      );
+    });
   });
 };
 
