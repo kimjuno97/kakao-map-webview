@@ -51,7 +51,7 @@ script.onload = () => {
 
       const center = map.getCenter();
 
-      window.postMessage(
+      window.mapTilesloaded.postMessage(
         JSON.stringify({
           type: "mapTilesloaded",
           lat: center.getLat(),
@@ -65,7 +65,7 @@ script.onload = () => {
 
       const center = map.getCenter();
 
-      window.postMessage(
+      window.mapDragend.postMessage(
         JSON.stringify({
           type: "mapDragend",
           lat: center.getLat(),
