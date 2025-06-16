@@ -41,47 +41,33 @@ script.onload = () => {
     setZoomable(true);
     bounds.extend(center);
 
+    // [지도 이벤트 리스너 설정](https://apis.map.kakao.com/web/documentation/#Map_Events)
     // 지도 중심 좌표가 바뀔 때마다 실행되는 콜백
-    kakao.maps.event.addListener(map, "center_changed", function () {
-      console.log("지도 중심이 바뀌었습니다!", map.getCenter());
+    kakao.maps.event.addListener(map, "tilesloaded", function () {
+      console.log(
+        "확대수준이 변경되거나 지도가 이동했을때 타일 이미지 로드가 모두 완료되면 발생한다.",
+        map.getCenter()
+      );
 
       const center = map.getCenter();
 
       window.postMessage(
         JSON.stringify({
-          type: "mapCenterChanged",
+          type: "mapTilesloaded",
           lat: center.getLat(),
           lng: center.getLng(),
         })
       );
     });
 
-    // 지도 줌 레벨이 바뀔 때마다 실행되는 콜백
-    kakao.maps.event.addListener(map, "zoom_changed", function () {
-      console.log("지도 줌이 바뀌었습니다!", map.getLevel());
-      // 원하는 로직 추가
+    kakao.maps.event.addListener(map, "dragend", function () {
+      console.log("드래그가 끝날 때 발생한다.", map.getCenter());
 
       const center = map.getCenter();
 
       window.postMessage(
         JSON.stringify({
-          type: "zoomChanged",
-          lat: center.getLat(),
-          lng: center.getLng(),
-        })
-      );
-    });
-
-    // 지도 영역이 바뀔 때마다 실행되는 콜백
-    kakao.maps.event.addListener(map, "bounds_changed", function () {
-      console.log("지도 영역이 바뀌었습니다!", map.getBounds());
-      // 원하는 로직 추가
-
-      const center = map.getCenter();
-
-      window.postMessage(
-        JSON.stringify({
-          type: "boundsChanged",
+          type: "mapDragend",
           lat: center.getLat(),
           lng: center.getLng(),
         })
