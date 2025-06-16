@@ -65,7 +65,7 @@ script.onload = () => {
 
       const center = map.getCenter();
 
-      window.mapDragend.postMessage(
+      window.mapTilesloaded.postMessage(
         JSON.stringify({
           type: "mapDragend",
           lat: center.getLat(),
@@ -95,3 +95,47 @@ function setZoomable(zoomable) {
 }
 
 window.setZoomable = setZoomable;
+
+/// [TODO] 주변수로부터 storeId를 가져오는 로직을 추가해야 합니다.
+function fetchNearbyEscapeRooms(nearbyEscapeRooms) {
+  window.mapError.postMessage(nearbyEscapeRooms);
+  const url = `https://v1/stores/$storeId/around`;
+
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch nearby escape rooms");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((room) => {
+        const position = new kakao.maps.LatLng(room.lat, room.lng);
+        const marker = new kakao.maps.Marker({
+          position: position,
+        });
+        marker.setMap(map);
+        bounds.extend(position);
+
+        const infoWindow = new kakao.maps.InfoWindow({
+          content: `<div style="padding:5px;">${room.name}</div>`,
+        });
+
+        kakao.maps.event.addListener(marker, "mouseover", () => {
+          infoWindow.open(map, marker);
+        });
+
+        kakao.maps.event.addListener(marker, "mouseout", () => {
+          infoWindow.close();
+        });
+      });
+
+      map.setBounds(bounds);
+    })
+    .catch((error) => {
+      console.error("Error fetching escape rooms:", error);
+      window.mapError.postMessage(error.message);
+    });
+}
+
+window.fetchNearbyEscapeRooms = fetchNearbyEscapeRooms;
