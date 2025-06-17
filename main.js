@@ -101,12 +101,13 @@ script.onload = () => {
       isOn: true,
     });
 
-    const infowindow = new kakao.maps.CustomOverlay({
+    const customOverlay = new kakao.maps.CustomOverlay({
+      map: map,
       position: center,
+      yAnchor: 1,
       content: iwContent,
     });
 
-    infowindow.open(map, marker);
     setZoomable(true);
     bounds.extend(center);
 
@@ -219,12 +220,12 @@ function fetchNearbyEscapeRooms(distance) {
             isOn: true,
           });
 
-          const infowindow = new kakao.maps.CustomOverlay({
+          const customOverlay = new kakao.maps.CustomOverlay({
+            map: map,
             position: center,
+            yAnchor: 1,
             content: iwContent,
           });
-
-          infowindow.open(map, marker);
 
           // kakao.maps.event.addListener(marker, "mouseover", () => {});
 
