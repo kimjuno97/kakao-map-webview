@@ -67,7 +67,7 @@ function createIwContent({ storeName, isOn }) {
           whiteSpace: "nowrap",
         }}
       >
-        {storeName}
+        ${storeName}
       </div>
     </div>
     `;
@@ -95,11 +95,17 @@ script.onload = () => {
 
     marker.setMap(map);
 
-    const infoWindow = createIwContent({
+    const iwContent = createIwContent({
       storeName: storeName,
       isOn: true,
     });
-    infoWindow.open(map, marker);
+
+    const infowindow = new kakao.maps.InfoWindow({
+      position: center,
+      content: iwContent,
+    });
+
+    infowindow.open(map, marker);
     setZoomable(true);
     bounds.extend(center);
 
