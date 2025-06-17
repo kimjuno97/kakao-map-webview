@@ -58,8 +58,7 @@ script.onload = () => {
     setZoomable(true);
     bounds.extend(center);
 
-    console.log("가까이있는 마커 등록시도");
-    fetchNearbyEscapeRooms(300);
+    // fetchNearbyEscapeRooms(300);
 
     // [지도 이벤트 리스너 설정](https://apis.map.kakao.com/web/documentation/#Map_Events)
     // 지도 중심 좌표가 바뀔 때마다 실행되는 콜백
