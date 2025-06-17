@@ -48,6 +48,7 @@ function createIwContent({ storeName, isOn, isMain }) {
     : subMarkerOffSrc;
 
   return `
+   <div style="display: flex; justify-content: center; align-items: center;">
     <div
       style="
         padding: 6px;
@@ -79,13 +80,13 @@ function createIwContent({ storeName, isOn, isMain }) {
         ${storeName}
       </div>
     </div>
-    <div>
       <img
         src="${markerSrc}"
         style="width: ${isMain ? "48px" : "20px"}; height: ${
     isMain ? "56px" : "20px"
   }; object-fit: contain;"
       />
+   </div>
   `;
 }
 
@@ -114,6 +115,7 @@ script.onload = () => {
     const iwContent = createIwContent({
       storeName: storeName,
       isOn: true,
+      isMain: true,
     });
 
     const customOverlay = new kakao.maps.CustomOverlay({
@@ -233,6 +235,7 @@ function fetchNearbyEscapeRooms(distance) {
           const iwContent = createIwContent({
             storeName: storeName,
             isOn: true,
+            isMain: false,
           });
 
           const customOverlay = new kakao.maps.CustomOverlay({
