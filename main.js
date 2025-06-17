@@ -135,6 +135,9 @@ function fetchNearbyEscapeRooms(distance) {
     })
     .then(({ data }) => {
       console.log("Nearby escape rooms data:", data);
+      console.log(
+        !Array.isArray(data) ? "Data is not an array" : "Data is an array"
+      );
       if (!data || !Array.isArray(data)) {
         data.forEach((room) => {
           const position = new kakao.maps.LatLng(room.y, room.x);
