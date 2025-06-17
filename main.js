@@ -51,30 +51,16 @@ script.onload = () => {
         "확대수준이 변경되거나 지도가 이동했을때 타일 이미지 로드가 모두 완료되면 발생한다.",
         map.getCenter()
       );
-
       const center = map.getCenter();
+      getAroundEscapeRooms({ storeId, distance });
 
-      window.mapTilesloaded.postMessage(
-        JSON.stringify({
-          type: "mapTilesloaded",
-          lat: center.getLat(),
-          lng: center.getLng(),
-        })
-      );
+      window.mapTilesloaded.postMessage("mapTilesloaded");
     });
 
     kakao.maps.event.addListener(map, "dragend", function () {
       console.log("드래그가 끝날 때 발생한다.", map.getCenter());
-
       const center = map.getCenter();
-
-      window.mapTilesloaded.postMessage(
-        JSON.stringify({
-          type: "mapDragend",
-          lat: center.getLat(),
-          lng: center.getLng(),
-        })
-      );
+      window.dragend.postMessage("dragend");
     });
   });
 };
@@ -99,58 +85,21 @@ function setZoomable(zoomable) {
 
 window.setZoomable = setZoomable;
 
-async function getAroundEscapeRooms({ storeId, distance }) {
-  try {
-    // 1. 쿼리 파라미터 처리
-    const queryParams = new URLSearchParams();
-    if (distance !== undefined) queryParams.append("meter", distance);
-
-    // 2. 요청 URL 생성
-    const url = `/v1/stores/${storeId}/around?${queryParams.toString()}`;
-
-    // 3. fetch API로 GET 요청
-    const res = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      },
-    });
-
-    // 4. 응답이 정상이 아닌 경우 에러 처리
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
-    // 5. 응답 데이터 파싱
-    const data = await res.json();
-
-    // 6. BaseModel 구조 맞춰서 반환 (예시, 실제 구조에 맞게 수정 필요)
-    // 여기서는 간단히 data 반환 (실제로는 BaseModel과 StoreModel 변환 필요)
-    // 만약 BaseModel 구조가 { data: [...], isSuccess: boolean, error: ... } 라면 아래처럼
-    const resModel = {
-      data: data, // 또는 data.list 등 실제 데이터 위치에 따라 수정
-      isSuccess: () => true, // 실제로는 data.isSuccess 또는 조건에 따라 반환
-    };
-
-    if (!resModel.isSuccess()) {
-      // BaseModel.defaultError() 대응
-      return { data: null, isSuccess: () => false };
-    }
-
-    return resModel;
-  } catch (error) {
-    console.error("Error fetching around escape rooms:", error);
-    // 에러 발생 시 BaseModel.defaultError() 대응
-    return { data: null, isSuccess: () => false };
-  }
-}
-
-/// [TODO] 주변수로부터 storeId를 가져오는 로직을 추가해야 합니다.
 function fetchNearbyEscapeRooms(distance) {
-  const url = `https://dapi.zamfit.kr/v1/stores/${storeId}/around`;
+  // 1. 쿼리 파라미터 처리
+  const queryParams = new URLSearchParams();
+  if (distance !== undefined) queryParams.append("meter", distance);
 
-  fetch(url)
+  // 2. 요청 URL 생성
+  const url = `/v1/stores/${storeId}/around?${queryParams.toString()}`;
+
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+  })
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch nearby escape rooms");
