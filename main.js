@@ -104,7 +104,7 @@ script.onload = () => {
     const customOverlay = new kakao.maps.CustomOverlay({
       map: map,
       position: center,
-      yAnchor: 1,
+      yAnchor: 2,
       content: iwContent,
     });
 
@@ -222,7 +222,7 @@ function fetchNearbyEscapeRooms(distance) {
 
           const customOverlay = new kakao.maps.CustomOverlay({
             map: map,
-            position: center,
+            position: position,
             yAnchor: 1,
             content: iwContent,
           });
