@@ -53,10 +53,13 @@ script.onload = () => {
           map.getCenter()
         );
         const center = map.getCenter();
-        window.mapTilesloaded.postMessage("mapTilesloaded");
+        window.postMessage(
+          { typeof: "mapTilesloaded", message: "mapTilesloaded" },
+          "*"
+        );
       } catch (error) {
         console.log("Error tilesloaded", error);
-        window.mapError.postMessage(`${error.message} \n center: ${center}`);
+        window.postMessage({ typeof: "mapError", message: error.message }, "*");
       }
     });
 
@@ -64,12 +67,10 @@ script.onload = () => {
       try {
         console.log("드래그가 끝날 때 발생한다.", map.getCenter());
         const center = map.getCenter();
-        window.dragend.postMessage("dragend");
+        window.postMessage({ typeof: "dragend", message: "dragend" }, "*");
       } catch (error) {
         console.log("Error dragend", error);
-        window.mapError.postMessage(
-          `${error.message} \n center: ${map.getCenter()}`
-        );
+        window.postMessage({ typeof: "mapError", message: error.message }, "*");
       }
     });
   });
@@ -83,7 +84,10 @@ function setBounds() {
     map.setLevel(3); // 필요하다면 사용
   } catch (error) {
     console.log("Error setBounds", error);
-    window.mapError.postMessage(`${error.message} \n bounds: ${bounds}`);
+    window.postMessage(
+      { typeof: "mapError", message: `${error.message} \n bounds: ${bounds}` },
+      "*"
+    );
   }
 }
 
@@ -142,7 +146,7 @@ function fetchNearbyEscapeRooms(distance) {
     })
     .catch((error) => {
       console.error("Error fetching escape rooms:", error);
-      window.mapError.postMessage(error.message);
+      window.postMessage({ typeof: "mapError", message: error.message }, "*");
     });
 }
 
