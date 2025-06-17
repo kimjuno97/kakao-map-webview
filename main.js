@@ -39,11 +39,10 @@ function createSubMarkerImage(isOn) {
 
 function createIwContent({ storeName, isOn }) {
   const bgColor = isOn ? "#d2ff53" : "#E3E3E3";
-  return (
-    <div
-      style={{
+  return `
+  <div style={{
         padding: "6px",
-        background: bgColor,
+        background: ${bgColor},
         boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)",
         borderRadius: "4px",
         outline: "1px #7c3fff solid",
@@ -71,7 +70,7 @@ function createIwContent({ storeName, isOn }) {
         {storeName}
       </div>
     </div>
-  );
+    `;
 }
 
 script.onload = () => {
