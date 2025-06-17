@@ -8,12 +8,6 @@ const accessToken = params.get("accessToken");
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
 
-// const width = params.get("width");
-// const height = params.get("height");
-// const elem = document.getElementById("map");
-// elem.style.width = `${width}px`;
-// elem.style.height = `${height}px`;
-
 const script = document.createElement("script");
 script.type = "text/javascript";
 script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
@@ -58,7 +52,7 @@ script.onload = () => {
     setZoomable(true);
     bounds.extend(center);
 
-    // fetchNearbyEscapeRooms(300);
+    fetchNearbyEscapeRooms(300);
 
     // [지도 이벤트 리스너 설정](https://apis.map.kakao.com/web/documentation/#Map_Events)
     // 지도 중심 좌표가 바뀔 때마다 실행되는 콜백
@@ -150,9 +144,14 @@ function fetchNearbyEscapeRooms(distance) {
       if (data && Array.isArray(data)) {
         data.forEach((room) => {
           const position = new kakao.maps.LatLng(room.y, room.x);
+
+          const markerImage = createMarkerImage(subMarkerOffSrc);
+
           const marker = new kakao.maps.Marker({
             position: position,
+            image: markerImage,
           });
+
           marker.setMap(map);
           // bounds.extend(position);
 
