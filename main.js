@@ -20,6 +20,7 @@ script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=fa
 document.head.appendChild(script);
 
 let bounds;
+let map;
 
 const mainMarkerOnSrc = "./assets/images/main_marker_on.png";
 const mainMarkerOffSrc = "./assets/images/main_marker_off.png";
@@ -44,7 +45,7 @@ script.onload = () => {
       level,
     };
 
-    const map = new kakao.maps.Map(mapContainer, mapOption);
+    map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
     const markerImage = createMarkerImage(mainMarkerOnSrc);
 
