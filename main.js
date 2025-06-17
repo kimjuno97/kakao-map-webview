@@ -22,9 +22,17 @@ const mainMarkerOffSrc = "https://i.ibb.co/VWMdyQZS/main-marker-off.png";
 const subMarkerOnSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
 const subMarkerOffSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
 
-function createMarkerImage(src) {
+function createMainMarkerImage(isOn) {
+  const src = isOn ? mainMarkerOnSrc : mainMarkerOffSrc;
   const imageSize = new kakao.maps.Size(48, 56);
   const imageOption = { offset: new kakao.maps.Point(0, 56) };
+  return new kakao.maps.MarkerImage(src, imageSize, imageOption);
+}
+
+function createSubMarkerImage(isOn) {
+  const src = isOn ? subMarkerOnSrc : subMarkerOffSrc;
+  const imageSize = new kakao.maps.Size(20, 20);
+  const imageOption = { offset: new kakao.maps.Point(0, 20) };
   return new kakao.maps.MarkerImage(src, imageSize, imageOption);
 }
 
@@ -41,7 +49,7 @@ script.onload = () => {
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
-    const markerImage = createMarkerImage(mainMarkerOnSrc);
+    const markerImage = createMainMarkerImage(true);
 
     const marker = new kakao.maps.Marker({
       position: center,
@@ -143,9 +151,11 @@ function fetchNearbyEscapeRooms(distance) {
     .then(({ data }) => {
       if (data && Array.isArray(data)) {
         data.forEach((room) => {
+          if (room.storeId == storeId) return;
+
           const position = new kakao.maps.LatLng(room.y, room.x);
 
-          const markerImage = createMarkerImage(subMarkerOffSrc);
+          const markerImage = createSubMarkerImage(false);
 
           const marker = new kakao.maps.Marker({
             position: position,
