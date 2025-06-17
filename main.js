@@ -96,7 +96,7 @@ script.onload = () => {
     marker.setMap(map);
 
     const infoWindow = createIwContent({
-      storeName: room.storeName,
+      storeName: storeName,
       isOn: true,
     });
     infoWindow.open(map, marker);
