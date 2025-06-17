@@ -47,18 +47,30 @@ script.onload = () => {
     // [지도 이벤트 리스너 설정](https://apis.map.kakao.com/web/documentation/#Map_Events)
     // 지도 중심 좌표가 바뀔 때마다 실행되는 콜백
     kakao.maps.event.addListener(map, "tilesloaded", function () {
-      console.log(
-        "확대수준이 변경되거나 지도가 이동했을때 타일 이미지 로드가 모두 완료되면 발생한다.",
-        map.getCenter()
-      );
-      const center = map.getCenter();
-      window.mapTilesloaded.postMessage("mapTilesloaded");
+      try {
+        console.log(
+          "확대수준이 변경되거나 지도가 이동했을때 타일 이미지 로드가 모두 완료되면 발생한다.",
+          map.getCenter()
+        );
+        const center = map.getCenter();
+        window.mapTilesloaded.postMessage("mapTilesloaded");
+      } catch (error) {
+        console.log("Error tilesloaded", error);
+        window.mapError.postMessage(`${error.message} \n center: ${center}`);
+      }
     });
 
     kakao.maps.event.addListener(map, "dragend", function () {
-      console.log("드래그가 끝날 때 발생한다.", map.getCenter());
-      const center = map.getCenter();
-      window.dragend.postMessage("dragend");
+      try {
+        console.log("드래그가 끝날 때 발생한다.", map.getCenter());
+        const center = map.getCenter();
+        window.dragend.postMessage("dragend");
+      } catch (error) {
+        console.log("Error dragend", error);
+        window.mapError.postMessage(
+          `${error.message} \n center: ${map.getCenter()}`
+        );
+      }
     });
   });
 };
