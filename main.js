@@ -52,8 +52,6 @@ script.onload = () => {
         map.getCenter()
       );
       const center = map.getCenter();
-      getAroundEscapeRooms({ storeId, distance });
-
       window.mapTilesloaded.postMessage("mapTilesloaded");
     });
 
