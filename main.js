@@ -37,8 +37,16 @@ function createSubMarkerImage(isOn) {
   return new kakao.maps.MarkerImage(src, imageSize, imageOption);
 }
 
-function createIwContent({ storeName, isOn }) {
+function createIwContent({ storeName, isOn, isMain }) {
   const bgColor = isOn ? "#d2ff53" : "#E3E3E3";
+  const markerSrc = isMain
+    ? isOn
+      ? mainMarkerOnSrc
+      : mainMarkerOffSrc
+    : isOn
+    ? subMarkerOnSrc
+    : subMarkerOffSrc;
+
   return `
     <div
       style="
@@ -71,6 +79,13 @@ function createIwContent({ storeName, isOn }) {
         ${storeName}
       </div>
     </div>
+    <div>
+      <img
+        src="${markerSrc}"
+        style="width: ${isMain ? "48px" : "20px"}; height: ${
+    isMain ? "56px" : "20px"
+  }; object-fit: contain;"
+      />
   `;
 }
 
@@ -87,14 +102,14 @@ script.onload = () => {
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
-    const markerImage = createMainMarkerImage(true);
+    // const markerImage = createMainMarkerImage(true);
 
-    const marker = new kakao.maps.Marker({
-      position: center,
-      image: markerImage,
-    });
+    // const marker = new kakao.maps.Marker({
+    //   position: center,
+    //   image: markerImage,
+    // });
 
-    marker.setMap(map);
+    // marker.setMap(map);
 
     const iwContent = createIwContent({
       storeName: storeName,
@@ -206,14 +221,14 @@ function fetchNearbyEscapeRooms(distance) {
 
           const position = new kakao.maps.LatLng(room.y, room.x);
 
-          const markerImage = createSubMarkerImage(false);
+          // const markerImage = createSubMarkerImage(false);
 
-          const marker = new kakao.maps.Marker({
-            position: position,
-            image: markerImage,
-          });
+          // const marker = new kakao.maps.Marker({
+          //   position: position,
+          //   image: markerImage,
+          // });
 
-          marker.setMap(map);
+          // marker.setMap(map);
 
           const iwContent = createIwContent({
             storeName: storeName,
