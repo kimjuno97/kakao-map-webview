@@ -101,7 +101,7 @@ script.onload = () => {
       isOn: true,
     });
 
-    const infowindow = new kakao.maps.InfoWindow({
+    const infowindow = new kakao.maps.CustomOverlay({
       position: center,
       content: iwContent,
     });
@@ -214,11 +214,17 @@ function fetchNearbyEscapeRooms(distance) {
 
           marker.setMap(map);
 
-          const infoWindow = createIwContent({
-            storeName: room.storeName,
-            isOn: false,
+          const iwContent = createIwContent({
+            storeName: storeName,
+            isOn: true,
           });
-          infoWindow.open(map, marker);
+
+          const infowindow = new kakao.maps.CustomOverlay({
+            position: center,
+            content: iwContent,
+          });
+
+          infowindow.open(map, marker);
 
           // kakao.maps.event.addListener(marker, "mouseover", () => {});
 
