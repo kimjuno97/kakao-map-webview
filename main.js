@@ -19,9 +19,19 @@ script.type = "text/javascript";
 script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
 document.head.appendChild(script);
 
-let map;
 let bounds;
-let marker;
+
+const mainMarkerOnSrc = "./assets/images/main_marker_on.png";
+const mainMarkerOffSrc = "./assets/images/main_marker_off.png";
+
+const subMarkerOnSrc = "./assets/images/sub_marker_on.png";
+const subMarkerSrc = "./assets/images/sub_marker_off.png";
+
+function createMarkerImage(src) {
+  const imageSize = new kakao.maps.Size(64, 69);
+  const imageOption = { offset: new kakao.maps.Point(27, 69) };
+  return new kakao.maps.MarkerImage(src, imageSize, imageOption);
+}
 
 script.onload = () => {
   kakao.maps.load(() => {
@@ -34,12 +44,15 @@ script.onload = () => {
       level,
     };
 
-    map = new kakao.maps.Map(mapContainer, mapOption);
+    const map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
+    const markerImage = createMarkerImage(mainMarkerOnSrc);
 
-    marker = new kakao.maps.Marker({
+    const marker = new kakao.maps.Marker({
       position: center,
+      image: markerImage,
     });
+
     marker.setMap(map);
     setZoomable(true);
     bounds.extend(center);
@@ -134,17 +147,12 @@ function fetchNearbyEscapeRooms(distance) {
       return response.json();
     })
     .then(({ data }) => {
-      console.log("Nearby escape rooms data:", data);
-      console.log(
-        !Array.isArray(data) ? "Data is not an array" : "Data is an array"
-      );
       if (data && Array.isArray(data)) {
         data.forEach((room) => {
           const position = new kakao.maps.LatLng(room.y, room.x);
           const marker = new kakao.maps.Marker({
             position: position,
           });
-          console.log("Escape room marker:", marker);
           marker.setMap(map);
           // bounds.extend(position);
 
