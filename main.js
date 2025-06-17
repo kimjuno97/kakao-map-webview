@@ -20,7 +20,7 @@ const mainMarkerOnSrc = "https://i.ibb.co/0jFbQP9K/main-marker-on.png";
 const mainMarkerOffSrc = "https://i.ibb.co/VWMdyQZS/main-marker-off.png";
 
 const subMarkerOnSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
-const subMarkerSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
+const subMarkerOffSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
 
 function createMarkerImage(src) {
   const imageSize = new kakao.maps.Size(48, 56);
