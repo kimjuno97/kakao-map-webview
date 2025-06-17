@@ -40,37 +40,38 @@ function createSubMarkerImage(isOn) {
 function createIwContent({ storeName, isOn }) {
   const bgColor = isOn ? "#d2ff53" : "#E3E3E3";
   return `
-  <div style={{
-        padding: "6px",
-        background: ${bgColor},
-        boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)",
-        borderRadius: "4px",
-        outline: "1px #7c3fff solid",
-        outlineOffset: "-1px",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "10px",
-        display: "inline-flex",
-      }}
+    <div
+      style="
+        padding: 6px;
+        background: ${bgColor};
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        outline: 1px #7c3fff solid;
+        outline-offset: -1px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        display: inline-flex;
+      "
     >
       <div
-        style={{
-          maxWidth: "70px",
-          textAlign: "center",
-          color: "#353535",
-          fontSize: "11px",
-          fontFamily: "Pretendard",
-          fontWeight: 500,
-          wordWrap: "break-word",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        }}
+        style="
+          max-width: 70px;
+          text-align: center;
+          color: #353535;
+          font-size: 11px;
+          font-family: Pretendard, sans-serif;
+          font-weight: 500;
+          word-wrap: break-word;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        "
       >
         ${storeName}
       </div>
     </div>
-    `;
+  `;
 }
 
 script.onload = () => {
