@@ -4,6 +4,7 @@ const lat = params.get("lat");
 const lng = params.get("lng");
 const storeId = params.get("storeId");
 const accessToken = params.get("accessToken");
+const storeName = params.get("storeName") || "탈출방";
 
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
@@ -19,8 +20,8 @@ let map;
 const mainMarkerOnSrc = "https://i.ibb.co/0jFbQP9K/main-marker-on.png";
 const mainMarkerOffSrc = "https://i.ibb.co/VWMdyQZS/main-marker-off.png";
 
-const subMarkerOnSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
-const subMarkerOffSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
+const subMarkerOnSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
+const subMarkerOffSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
 
 function createMainMarkerImage(isOn) {
   const src = isOn ? mainMarkerOnSrc : mainMarkerOffSrc;
@@ -34,6 +35,43 @@ function createSubMarkerImage(isOn) {
   const imageSize = new kakao.maps.Size(20, 20);
   const imageOption = { offset: new kakao.maps.Point(0, 20) };
   return new kakao.maps.MarkerImage(src, imageSize, imageOption);
+}
+
+function createIwContent({ storeName, isOn }) {
+  const bgColor = isOn ? "#d2ff53" : "#E3E3E3";
+  return (
+    <div
+      style={{
+        padding: "6px",
+        background: bgColor,
+        boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.2)",
+        borderRadius: "4px",
+        outline: "1px #7c3fff solid",
+        outlineOffset: "-1px",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "10px",
+        display: "inline-flex",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "70px",
+          textAlign: "center",
+          color: "#353535",
+          fontSize: "11px",
+          fontFamily: "Pretendard",
+          fontWeight: 500,
+          wordWrap: "break-word",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {storeName}
+      </div>
+    </div>
+  );
 }
 
 script.onload = () => {
@@ -57,6 +95,12 @@ script.onload = () => {
     });
 
     marker.setMap(map);
+
+    const infoWindow = createIwContent({
+      storeName: room.storeName,
+      isOn: true,
+    });
+    infoWindow.open(map, marker);
     setZoomable(true);
     bounds.extend(center);
 
@@ -163,15 +207,14 @@ function fetchNearbyEscapeRooms(distance) {
           });
 
           marker.setMap(map);
-          // bounds.extend(position);
 
-          // const infoWindow = new kakao.maps.InfoWindow({
-          //   content: `<div style="padding:5px;">${room.name}</div>`,
-          // });
+          const infoWindow = createIwContent({
+            storeName: room.storeName,
+            isOn: false,
+          });
+          infoWindow.open(map, marker);
 
-          // kakao.maps.event.addListener(marker, "mouseover", () => {
-          //   infoWindow.open(map, marker);
-          // });
+          // kakao.maps.event.addListener(marker, "mouseover", () => {});
 
           // kakao.maps.event.addListener(marker, "mouseout", () => {
           //   infoWindow.close();
