@@ -44,6 +44,7 @@ script.onload = () => {
     setZoomable(true);
     bounds.extend(center);
 
+    console.log("가까이있는 마커 등록시도");
     fetchNearbyEscapeRooms(300);
 
     // [지도 이벤트 리스너 설정](https://apis.map.kakao.com/web/documentation/#Map_Events)
@@ -140,23 +141,24 @@ function fetchNearbyEscapeRooms(distance) {
           const marker = new kakao.maps.Marker({
             position: position,
           });
+          console.log("Escape room marker:", marker);
           marker.setMap(map);
-          bounds.extend(position);
+          // bounds.extend(position);
 
-          const infoWindow = new kakao.maps.InfoWindow({
-            content: `<div style="padding:5px;">${room.name}</div>`,
-          });
+          // const infoWindow = new kakao.maps.InfoWindow({
+          //   content: `<div style="padding:5px;">${room.name}</div>`,
+          // });
 
-          kakao.maps.event.addListener(marker, "mouseover", () => {
-            infoWindow.open(map, marker);
-          });
+          // kakao.maps.event.addListener(marker, "mouseover", () => {
+          //   infoWindow.open(map, marker);
+          // });
 
-          kakao.maps.event.addListener(marker, "mouseout", () => {
-            infoWindow.close();
-          });
+          // kakao.maps.event.addListener(marker, "mouseout", () => {
+          //   infoWindow.close();
+          // });
         });
 
-        map.setBounds(bounds);
+        // map.setBounds(bounds);
       }
     })
     .catch((error) => {
