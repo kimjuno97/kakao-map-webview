@@ -137,7 +137,7 @@ function fetchNearbyEscapeRooms(distance) {
       console.log("Nearby escape rooms data:", data);
       if (!data || !Array.isArray(data)) {
         data.forEach((room) => {
-          const position = new kakao.maps.LatLng(room.lat, room.lng);
+          const position = new kakao.maps.LatLng(room.y, room.x);
           const marker = new kakao.maps.Marker({
             position: position,
           });
