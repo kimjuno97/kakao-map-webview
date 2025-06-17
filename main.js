@@ -55,13 +55,18 @@ script.onload = () => {
           map.getCenter()
         );
         const center = map.getCenter();
-        window.postMessage(
-          { typeof: "mapTilesloaded", message: "mapTilesloaded" },
-          "*"
-        );
+
+        if (typeof mapTilesloaded !== "undefined") {
+          // Flutter WebView용
+          mapTilesloaded.postMessage("mapTilesloaded");
+        }
       } catch (error) {
         console.log("Error tilesloaded", error);
-        window.postMessage({ typeof: "mapError", message: error.message }, "*");
+
+        if (typeof mapError !== "undefined") {
+          // Flutter WebView용
+          mapError.postMessage(error.message);
+        }
       }
     });
 
@@ -69,10 +74,16 @@ script.onload = () => {
       try {
         console.log("드래그가 끝날 때 발생한다.", map.getCenter());
         const center = map.getCenter();
-        window.postMessage({ typeof: "dragend", message: "dragend" }, "*");
+        if (typeof dragend !== "undefined") {
+          // Flutter WebView용
+          dragend.postMessage("dragend");
+        }
       } catch (error) {
         console.log("Error dragend", error);
-        window.postMessage({ typeof: "mapError", message: error.message }, "*");
+        if (typeof mapError !== "undefined") {
+          // Flutter WebView용
+          mapError.postMessage(error.message);
+        }
       }
     });
   });
@@ -86,10 +97,9 @@ function setBounds() {
     map.setLevel(3); // 필요하다면 사용
   } catch (error) {
     console.log("Error setBounds", error);
-    window.postMessage(
-      { typeof: "mapError", message: `${error.message} \n bounds: ${bounds}` },
-      "*"
-    );
+    if (typeof mapError !== "undefined") {
+      mapError.postMessage(error.message);
+    }
   }
 }
 
@@ -107,7 +117,7 @@ function fetchNearbyEscapeRooms(distance) {
   if (distance !== undefined) queryParams.append("meter", distance);
 
   // 2. 요청 URL 생성
-  const url = `/v1/stores/${storeId}/around?${queryParams.toString()}`;
+  const url = `https://user-api.zamfit.kr/v1/stores/${storeId}/around?${queryParams.toString()}`;
 
   fetch(url, {
     method: "GET",
@@ -148,7 +158,10 @@ function fetchNearbyEscapeRooms(distance) {
     })
     .catch((error) => {
       console.error("Error fetching escape rooms:", error);
-      window.postMessage({ typeof: "mapError", message: error.message }, "*");
+      if (typeof mapError !== "undefined") {
+        // Flutter WebView용
+        mapError.postMessage(error.message);
+      }
     });
 }
 
