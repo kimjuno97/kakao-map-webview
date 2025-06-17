@@ -132,29 +132,32 @@ function fetchNearbyEscapeRooms(distance) {
       }
       return response.json();
     })
-    .then((data) => {
-      data.forEach((room) => {
-        const position = new kakao.maps.LatLng(room.lat, room.lng);
-        const marker = new kakao.maps.Marker({
-          position: position,
-        });
-        marker.setMap(map);
-        bounds.extend(position);
+    .then(({ data }) => {
+      console.log("Nearby escape rooms data:", data);
+      if (!data || !Array.isArray(data)) {
+        data.forEach((room) => {
+          const position = new kakao.maps.LatLng(room.lat, room.lng);
+          const marker = new kakao.maps.Marker({
+            position: position,
+          });
+          marker.setMap(map);
+          bounds.extend(position);
 
-        const infoWindow = new kakao.maps.InfoWindow({
-          content: `<div style="padding:5px;">${room.name}</div>`,
+          const infoWindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:5px;">${room.name}</div>`,
+          });
+
+          kakao.maps.event.addListener(marker, "mouseover", () => {
+            infoWindow.open(map, marker);
+          });
+
+          kakao.maps.event.addListener(marker, "mouseout", () => {
+            infoWindow.close();
+          });
         });
 
-        kakao.maps.event.addListener(marker, "mouseover", () => {
-          infoWindow.open(map, marker);
-        });
-
-        kakao.maps.event.addListener(marker, "mouseout", () => {
-          infoWindow.close();
-        });
-      });
-
-      map.setBounds(bounds);
+        map.setBounds(bounds);
+      }
     })
     .catch((error) => {
       console.error("Error fetching escape rooms:", error);
