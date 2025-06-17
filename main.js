@@ -104,7 +104,7 @@ script.onload = () => {
     const customOverlay = new kakao.maps.CustomOverlay({
       map: map,
       position: center,
-      yAnchor: 2,
+      yAnchor: 1,
       content: iwContent,
     });
 
