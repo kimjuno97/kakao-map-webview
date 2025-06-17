@@ -56,16 +56,16 @@ script.onload = () => {
         );
         const center = map.getCenter();
 
-        if (typeof mapTilesloaded !== "undefined") {
+        if (typeof window.mapTilesloaded !== "undefined") {
           // Flutter WebView용
-          mapTilesloaded.postMessage("mapTilesloaded");
+          window.mapTilesloaded.postMessage("mapTilesloaded");
         }
       } catch (error) {
         console.log("Error tilesloaded", error);
 
-        if (typeof mapError !== "undefined") {
+        if (typeof window.mapError !== "undefined") {
           // Flutter WebView용
-          mapError.postMessage(error.message);
+          window.mapError.postMessage(error.message);
         }
       }
     });
@@ -74,15 +74,15 @@ script.onload = () => {
       try {
         console.log("드래그가 끝날 때 발생한다.", map.getCenter());
         const center = map.getCenter();
-        if (typeof dragend !== "undefined") {
+        if (typeof window.dragend !== "undefined") {
           // Flutter WebView용
-          dragend.postMessage("dragend");
+          window.dragend.postMessage("dragend");
         }
       } catch (error) {
         console.log("Error dragend", error);
-        if (typeof mapError !== "undefined") {
+        if (typeof window.mapError !== "undefined") {
           // Flutter WebView용
-          mapError.postMessage(error.message);
+          window.mapError.postMessage(error.message);
         }
       }
     });
@@ -97,8 +97,8 @@ function setBounds() {
     map.setLevel(3); // 필요하다면 사용
   } catch (error) {
     console.log("Error setBounds", error);
-    if (typeof mapError !== "undefined") {
-      mapError.postMessage(error.message);
+    if (typeof window.mapError !== "undefined") {
+      window.mapError.postMessage(error.message);
     }
   }
 }
@@ -158,9 +158,9 @@ function fetchNearbyEscapeRooms(distance) {
     })
     .catch((error) => {
       console.error("Error fetching escape rooms:", error);
-      if (typeof mapError !== "undefined") {
+      if (typeof window.mapError !== "undefined") {
         // Flutter WebView용
-        mapError.postMessage(error.message);
+        window.mapError.postMessage(error.message);
       }
     });
 }
