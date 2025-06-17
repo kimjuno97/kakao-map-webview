@@ -29,8 +29,8 @@ const subMarkerOnSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
 const subMarkerSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
 
 function createMarkerImage(src) {
-  const imageSize = new kakao.maps.Size(64, 69);
-  const imageOption = { offset: new kakao.maps.Point(27, 69) };
+  const imageSize = new kakao.maps.Size(48, 56);
+  const imageOption = { offset: new kakao.maps.Point(0, 56) };
   return new kakao.maps.MarkerImage(src, imageSize, imageOption);
 }
 
