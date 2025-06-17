@@ -22,11 +22,11 @@ document.head.appendChild(script);
 let bounds;
 let map;
 
-const mainMarkerOnSrc = "./assets/images/main_marker_on.png";
-const mainMarkerOffSrc = "./assets/images/main_marker_off.png";
+const mainMarkerOnSrc = "https://i.ibb.co/0jFbQP9K/main-marker-on.png";
+const mainMarkerOffSrc = "https://i.ibb.co/VWMdyQZS/main-marker-off.png";
 
-const subMarkerOnSrc = "./assets/images/sub_marker_on.png";
-const subMarkerSrc = "./assets/images/sub_marker_off.png";
+const subMarkerOnSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
+const subMarkerSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
 
 function createMarkerImage(src) {
   const imageSize = new kakao.maps.Size(64, 69);
