@@ -44,6 +44,8 @@ script.onload = () => {
     setZoomable(true);
     bounds.extend(center);
 
+    fetchNearbyEscapeRooms(300);
+
     // [지도 이벤트 리스너 설정](https://apis.map.kakao.com/web/documentation/#Map_Events)
     // 지도 중심 좌표가 바뀔 때마다 실행되는 콜백
     kakao.maps.event.addListener(map, "tilesloaded", function () {
