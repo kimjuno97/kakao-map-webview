@@ -54,7 +54,17 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
     : subMarkerOffSrc;
 
   return `
-   <div id="${storeId}" class="storeId" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div 
+  id="${storeId}" 
+  class="my-overlay" 
+  data-store-id="${storeId}" 
+  data-is-main="${isMain}"
+  style="display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center;
+  "> 
+  <div>
     <div
       class="storeName"
       style="
@@ -94,7 +104,8 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
     isMain ? "56px" : "20px"
   }; object-fit: contain;"
       />
-   </div>
+  </div>
+</div>
   `;
 }
 
@@ -113,47 +124,6 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
     content: iwContent,
     clickable: true,
   });
-
-  setTimeout(() => {
-    const el = document.getElementById(storeId);
-    if (el) {
-      el.addEventListener("click", function () {
-        // customOverlay.setMap(null); // 오버레이 닫기
-        // // 상태값만 변경
-        // selectedStoreId = storeId;
-        // console.log("changed selectedStoreId", selectedStoreId);
-        // // 전체 오버레이를 상태에 맞게 다시 그리기
-        // renderOverlay({
-        //   storeName,
-        //   isOn: selectedStoreId === storeId,
-        //   isMain,
-        //   storeId,
-        //   position,
-        // });
-
-        selectedStoreId = storeId;
-        const findStoreEls = document.getElementsByClassName("storeId");
-
-        for (let i = 0; i < findStoreEls.length; i++) {
-          const storeEl = findStoreEls[i];
-          // [MEMO] storeEl.id가 string이고 storeId가 number일 수 있음
-          const isMain = storeEl.id == storeId;
-
-          const storeNameEl = storeEl.querySelector(".storeName");
-          const storeImgEl = storeEl.querySelector(".storeImg");
-
-          /// storeNameEl이 존재하는지 확인
-          if (storeEl.id == selectedStoreId) {
-            storeNameEl.style.backgroundColor = "#d2ff53";
-            storeImgEl.src = isMain ? mainMarkerOnSrc : subMarkerOnSrc;
-          } else {
-            storeNameEl.style.backgroundColor = "#E3E3E3";
-            storeImgEl.src = isMain ? mainMarkerOffSrc : subMarkerOffSrc;
-          }
-        }
-      });
-    }
-  }, 0);
 }
 
 script.onload = () => {
@@ -310,3 +280,36 @@ function fetchNearbyEscapeRooms(distance) {
 }
 
 window.fetchNearbyEscapeRooms = fetchNearbyEscapeRooms;
+
+document.addEventListener("click", (e) => {
+  const overlayEl = e.target.closest(".my-overlay");
+  console.log("클릭된 overlay element", overlayEl);
+  if (overlayEl) {
+    selectedStoreId = Number(overlayEl.getAttribute("data-store-id"));
+    const findStoreEls = document.getElementsByClassName("storeId");
+
+    for (let i = 0; i < findStoreEls.length; i++) {
+      const storeEl = findStoreEls[i];
+      const currentStoreId = Number(storeEl.getAttribute("data-store-id"));
+      const isSelected = currentStoreId === storeId;
+
+      const storeNameEl = storeEl.querySelector(".storeName");
+      const storeImgEl = storeEl.querySelector(".storeImg");
+
+      if (storeNameEl) {
+        storeNameEl.style.backgroundColor = isSelected ? "#d2ff53" : "#E3E3E3";
+      }
+
+      if (storeImgEl) {
+        const isMain = storeEl.getAttribute("data-is-main") === "true";
+        if (isMain) {
+          storeImgEl.src = isSelected ? mainMarkerOnSrc : mainMarkerOffSrc;
+        } else {
+          storeImgEl.src = isSelected ? subMarkerOnSrc : subMarkerOffSrc;
+        }
+      }
+    }
+
+    return;
+  }
+});
