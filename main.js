@@ -276,10 +276,9 @@ document.addEventListener("click", (e) => {
     selectedStoreId = Number(overlayEl.getAttribute("data-store-id"));
     const findStoreEls = document.getElementsByClassName("storeId");
 
-    for (let i = 0; i < findStoreEls.length; i++) {
-      const storeEl = findStoreEls[i];
+    findStoreEls.forEach((storeEl) => {
       const currentStoreId = Number(storeEl.getAttribute("data-store-id"));
-      const isSelected = currentStoreId === storeId;
+      const isSelected = currentStoreId === selectedStoreId;
 
       const storeNameEl = storeEl.querySelector(".storeName");
       const storeImgEl = storeEl.querySelector(".storeImg");
@@ -296,8 +295,7 @@ document.addEventListener("click", (e) => {
           storeImgEl.src = isSelected ? subMarkerOnSrc : subMarkerOffSrc;
         }
       }
-    }
-
+    });
     return;
   }
 });
