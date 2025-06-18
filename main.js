@@ -132,7 +132,7 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
         // });
 
         selectedStoreId = storeId;
-        const findStoreEls = document.getElementByClassName("storeId");
+        const findStoreEls = document.getElementsByClassName("storeId");
 
         for (let i = 0; i < findStoreEls.length; i++) {
           const storeEl = findStoreEls[i];
