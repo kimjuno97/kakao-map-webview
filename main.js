@@ -136,7 +136,8 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
 
         for (let i = 0; i < findStoreEls.length; i++) {
           const storeEl = findStoreEls[i];
-          const isMain = storeEl.id === storeId;
+          // [MEMO] storeEl.id가 string이고 storeId가 number일 수 있음
+          const isMain = storeEl.id == storeId;
           console.log(
             ">>>>>> isMain",
             isMain,
