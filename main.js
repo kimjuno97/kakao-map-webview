@@ -54,8 +54,9 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
     : subMarkerOffSrc;
 
   return `
-   <div id="${storeId}" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+   <div id="${storeId}" class="storeId" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <div
+      class="storeName"
       style="
         padding: 6px;
         background: ${bgColor};
@@ -88,6 +89,7 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
     </div>
       <img
         src="${markerSrc}"
+        class="storeImg"
         style="width: ${isMain ? "48px" : "20px"}; height: ${
     isMain ? "56px" : "20px"
   }; object-fit: contain;"
@@ -117,18 +119,43 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
     console.log(">>>>>>> el", el);
     if (el) {
       el.addEventListener("click", function () {
-        customOverlay.setMap(null); // 오버레이 닫기
-        // 상태값만 변경
+        // customOverlay.setMap(null); // 오버레이 닫기
+        // // 상태값만 변경
+        // selectedStoreId = storeId;
+        // console.log("changed selectedStoreId", selectedStoreId);
+        // // 전체 오버레이를 상태에 맞게 다시 그리기
+        // renderOverlay({
+        //   storeName,
+        //   isOn: selectedStoreId === storeId,
+        //   isMain,
+        //   storeId,
+        //   position,
+        // });
+
         selectedStoreId = storeId;
-        console.log("changed selectedStoreId", selectedStoreId);
-        // 전체 오버레이를 상태에 맞게 다시 그리기
-        renderOverlay({
-          storeName,
-          isOn: selectedStoreId === storeId,
-          isMain,
-          storeId,
-          position,
-        });
+        const findStoreEls = document.getElementByClassName("storeId");
+
+        for (let i = 0; i < findStoreEls.length; i++) {
+          const storeEl = findStoreEls[i];
+          const isMain = storeEl.id === storeId;
+
+          const storeNameEl = storeEl.querySelector(".storeName");
+          const storeImgEl = storeEl.querySelector(".storeImg");
+          console.log(
+            ">>>>>>>>>>> 잘 선택되었는지 확인합니다. storeEl",
+            storeEl,
+            "isMain",
+            isMain
+          );
+          /// storeNameEl이 존재하는지 확인
+          if (storeEl.id === selectedStoreId) {
+            storeNameEl.style.backgroundColor = "#d2ff53";
+            storeImgEl.src = isMain ? mainMarkerOnSrc : subMarkerOnSrc;
+          } else {
+            storeNameEl.style.backgroundColor = "#E3E3E3";
+            storeImgEl.src = isMain ? mainMarkerOffSrc : subMarkerOffSrc;
+          }
+        }
       });
     }
   }, 0);
