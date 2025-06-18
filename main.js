@@ -274,7 +274,7 @@ document.addEventListener("click", (e) => {
   console.log("클릭된 overlay element", overlayEl);
   if (overlayEl) {
     selectedStoreId = Number(overlayEl.getAttribute("data-store-id"));
-    const findStoreEls = document.getElementsByClassName("storeId");
+    const findStoreEls = Array.from(document.getElementsByClassName("storeId"));
 
     findStoreEls.forEach((storeEl) => {
       const currentStoreId = Number(storeEl.getAttribute("data-store-id"));
