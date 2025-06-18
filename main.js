@@ -137,15 +137,23 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
         for (let i = 0; i < findStoreEls.length; i++) {
           const storeEl = findStoreEls[i];
           const isMain = storeEl.id === storeId;
+          console.log(
+            ">>>>>> isMain",
+            isMain,
+            "storeId",
+            storeId,
+            "storeEl.id",
+            storeEl.id,
+            "typeof storeEl.id",
+            typeof storeEl.id,
+
+            "typeof storeId",
+            typeof storeId
+          );
 
           const storeNameEl = storeEl.querySelector(".storeName");
           const storeImgEl = storeEl.querySelector(".storeImg");
-          console.log(
-            ">>>>>>>>>>> 잘 선택되었는지 확인합니다. storeEl",
-            storeEl,
-            "isMain",
-            isMain
-          );
+
           /// storeNameEl이 존재하는지 확인
           if (storeEl.id === selectedStoreId) {
             storeNameEl.style.backgroundColor = "#d2ff53";
