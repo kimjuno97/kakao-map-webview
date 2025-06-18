@@ -14,7 +14,7 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
       Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const d = R * c;
-  return d;
+  return Math.round(d); // 미터 단위로 반환
 }
 
 const params = new URLSearchParams(window.location.search);
@@ -201,15 +201,6 @@ script.onload = () => {
 
         console.log("중심과 북동쪽 경계 간 거리(m):", distance);
         fetchNearbyEscapeRooms(distance);
-
-        // if (typeof window.mapTilesloaded !== "undefined") {
-        //   // Flutter WebView용
-        //   const payload = JSON.stringify({
-        //     sw: center.getLat(),
-        //     ne: center.getLng(),
-        //   });
-        //   window.mapTilesloaded.postMessage(payload);
-        // }
       } catch (error) {
         console.log("Error tilesloaded", error);
 
@@ -314,6 +305,9 @@ document.addEventListener("click", (e) => {
   console.log("클릭된 overlay element", overlayEl);
   if (overlayEl) {
     selectedStoreId = Number(overlayEl.getAttribute("data-store-id"));
+    if (typeof window.changeSelectStore !== "undefined") {
+      window.changeSelectStore.postMessage(selectedStoreId);
+    }
     const findStoreEls = Array.from(document.getElementsByClassName("storeId"));
 
     findStoreEls.forEach((storeEl) => {
