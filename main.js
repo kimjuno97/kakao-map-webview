@@ -53,6 +53,7 @@ const storeName = params.get("storeName") || "탈출방";
 
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
+const isOnlyMarker = params.get("isOnlyMarker") === "true";
 
 const script = document.createElement("script");
 script.type = "text/javascript";
@@ -108,27 +109,31 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
   justify-content: center; 
   align-items: center;
   "> 
-  <div
-    class="storeName"
-    style="
-      padding: 6px;
-      background: ${bgColor};
-      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-      border-radius: 4px;
-      outline: 1px #7c3fff solid;
-      max-width: 70px;
-      text-align: center;
-      color: #353535;
-      font-size: 11px;
-      font-family: Pretendard, sans-serif;
-      font-weight: 500;
-      word-wrap: break-word;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      ">
-        ${storeName}
-      </div>
+ ${
+   isOnlyMarker
+     ? ""
+     : `<div
+          class="storeName"
+          style="
+            padding: 6px;
+            background: ${bgColor};
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            outline: 1px #7c3fff solid;
+            max-width: 70px;
+            text-align: center;
+            color: #353535;
+            font-size: 11px;
+            font-family: Pretendard, sans-serif;
+            font-weight: 500;
+            word-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          ">
+            ${storeName}
+        </div>`
+ }
   <img
     src="${markerSrc}"
     class="storeImg"
