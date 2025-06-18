@@ -17,11 +17,11 @@ document.head.appendChild(script);
 let bounds;
 let map;
 
-const mainMarkerOnSrc = "https://i.ibb.co/0jFbQP9K/main-marker-on.png";
-const mainMarkerOffSrc = "https://i.ibb.co/VWMdyQZS/main-marker-off.png";
+const mainMarkerOnSrc = "https://i.ibb.co/6c7DbZSp/main-marker-on.png";
+const mainMarkerOffSrc = "https://i.ibb.co/PGLrxysb/main-marker-off.png";
 
-const subMarkerOnSrc = "https://i.ibb.co/RkXb85kr/sub-marker-off.png";
-const subMarkerOffSrc = "https://i.ibb.co/XfZCvHfH/sub-marker-on.png";
+const subMarkerOnSrc = "https://i.ibb.co/GQP8tgVB/sub-marker-on.png";
+const subMarkerOffSrc = "https://i.ibb.co/8gdYHvcB/sub-marker-off.png";
 
 function createMainMarkerImage(isOn) {
   const src = isOn ? mainMarkerOnSrc : mainMarkerOffSrc;
