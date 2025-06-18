@@ -64,43 +64,31 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
   justify-content: center; 
   align-items: center;
   "> 
-  <div>
-    <div
-      class="storeName"
-      style="
-        padding: 6px;
-        background: ${bgColor};
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
-        outline: 1px #7c3fff solid;
-        outline-offset: -1px;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        display: inline-flex;
-      "
-    >
-      <div
-        style="
-          max-width: 70px;
-          text-align: center;
-          color: #353535;
-          font-size: 11px;
-          font-family: Pretendard, sans-serif;
-          font-weight: 500;
-          word-wrap: break-word;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        "
-      >
+  <div
+    class="storeName"
+    style="
+      padding: 6px;
+      background: ${bgColor};
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      outline: 1px #7c3fff solid;
+      max-width: 70px;
+      text-align: center;
+      color: #353535;
+      font-size: 11px;
+      font-family: Pretendard, sans-serif;
+      font-weight: 500;
+      word-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      ">
         ${storeName}
       </div>
-    </div>
-      <img
-        src="${markerSrc}"
-        class="storeImg"
-        style="width: ${isMain ? "48px" : "20px"}; height: ${
+  <img
+    src="${markerSrc}"
+    class="storeImg"
+    style="width: ${isMain ? "48px" : "20px"}; height: ${
     isMain ? "56px" : "20px"
   }; object-fit: contain;"
       />
