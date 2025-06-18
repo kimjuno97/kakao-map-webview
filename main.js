@@ -56,7 +56,7 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
   return `
 <div 
   id="${storeId}" 
-  class="my-overlay" 
+  class="my-overlay storeId" 
   data-store-id="${storeId}" 
   data-is-main="${isMain}"
   style="display: flex; 
