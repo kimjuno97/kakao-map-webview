@@ -170,16 +170,36 @@ script.onload = () => {
           "확대수준이 변경되거나 지도가 이동했을때 타일 이미지 로드가 모두 완료되면 발생한다.",
           map.getCenter()
         );
-        const center = map.getCenter();
 
-        if (typeof window.mapTilesloaded !== "undefined") {
-          // Flutter WebView용
-          const payload = JSON.stringify({
-            lat: center.getLat(),
-            lng: center.getLng(),
-          });
-          window.mapTilesloaded.postMessage(payload);
-        }
+        const bounds = map.getBounds();
+        const center = map.getCenter();
+        const ne = bounds.getNorthEast();
+        const se = new kakao.maps.LatLng(
+          bounds.getSouthWest().getLat(),
+          bounds.getNorthEast().getLng()
+        );
+
+        const northDist = kakao.maps.geometry.spherical.computeDistanceBetween(
+          center,
+          ne
+        );
+        const southDist = kakao.maps.geometry.spherical.computeDistanceBetween(
+          center,
+          se
+        );
+
+        const distance = Math.max(northDist, southDist);
+        console.log(">>>>>distance", distance);
+        fetchNearbyEscapeRooms(distance);
+
+        // if (typeof window.mapTilesloaded !== "undefined") {
+        //   // Flutter WebView용
+        //   const payload = JSON.stringify({
+        //     sw: center.getLat(),
+        //     ne: center.getLng(),
+        //   });
+        //   window.mapTilesloaded.postMessage(payload);
+        // }
       } catch (error) {
         console.log("Error tilesloaded", error);
 
@@ -193,7 +213,6 @@ script.onload = () => {
     kakao.maps.event.addListener(map, "dragend", function () {
       try {
         console.log("드래그가 끝날 때 발생한다.", map.getCenter());
-        const center = map.getCenter();
         if (typeof window.dragend !== "undefined") {
           // Flutter WebView용
           window.dragend.postMessage("dragend");
