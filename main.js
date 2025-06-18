@@ -1,5 +1,22 @@
 // guide: https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
 
+/** 하버사인 공식 함수 구현  */
+function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000; // 지구 반지름(m)
+  const toRad = (value) => (value * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c;
+  return d;
+}
+
 const params = new URLSearchParams(window.location.search);
 const appKey = params.get("appKey");
 const lat = params.get("lat");
@@ -171,25 +188,18 @@ script.onload = () => {
           map.getCenter()
         );
 
-        const bounds = map.getBounds();
         const center = map.getCenter();
+        const bounds = map.getBounds();
         const ne = bounds.getNorthEast();
-        const se = new kakao.maps.LatLng(
-          bounds.getSouthWest().getLat(),
-          bounds.getNorthEast().getLng()
+
+        const distance = getDistanceFromLatLonInMeters(
+          center.getLat(),
+          center.getLng(),
+          ne.getLat(),
+          ne.getLng()
         );
 
-        const northDist = kakao.maps.geometry.spherical.computeDistanceBetween(
-          center,
-          ne
-        );
-        const southDist = kakao.maps.geometry.spherical.computeDistanceBetween(
-          center,
-          se
-        );
-
-        const distance = Math.max(northDist, southDist);
-        console.log(">>>>>distance", distance);
+        console.log("중심과 북동쪽 경계 간 거리(m):", distance);
         fetchNearbyEscapeRooms(distance);
 
         // if (typeof window.mapTilesloaded !== "undefined") {
