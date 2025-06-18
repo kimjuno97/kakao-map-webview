@@ -13,7 +13,7 @@ const level = levelStr ? parseInt(levelStr, 10) : 3;
 
 const script = document.createElement("script");
 script.type = "text/javascript";
-script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services`;
+script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false&libraries=clusterer,services,geometry`;
 document.head.appendChild(script);
 
 let bounds;
