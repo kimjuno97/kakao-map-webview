@@ -120,10 +120,11 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
         customOverlay.setMap(null); // 오버레이 닫기
         // 상태값만 변경
         selectedStoreId = storeId;
+        console.log("changed selectedStoreId", selectedStoreId);
         // 전체 오버레이를 상태에 맞게 다시 그리기
         renderOverlay({
           storeName,
-          isOn,
+          isOn: selectedStoreId === storeId,
           isMain,
           storeId,
           position,
