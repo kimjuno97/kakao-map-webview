@@ -26,8 +26,9 @@ const subMarkerOnSrc = "https://i.ibb.co/GQP8tgVB/sub-marker-on.png";
 const subMarkerOffSrc = "https://i.ibb.co/8gdYHvcB/sub-marker-off.png";
 
 let selectedStoreId = storeId;
-let mainCustomOverlay;
-let subCustomOverlay = [];
+
+/** 화면에 보여지는 마커 표시 */
+const showMainMarker = new Set([]);
 
 function createMainMarkerImage(isOn) {
   const src = isOn ? mainMarkerOnSrc : mainMarkerOffSrc;
@@ -98,6 +99,12 @@ function createIwContent({ storeName, isOn, isMain, storeId }) {
 }
 
 function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
+  if (showMainMarker.has(storeId)) {
+    console.log("이미 표시된 마커입니다:", storeId);
+    return;
+  }
+  showMainMarker.add(storeId);
+
   const iwContent = createIwContent({
     storeName,
     isOn,
@@ -167,7 +174,11 @@ script.onload = () => {
 
         if (typeof window.mapTilesloaded !== "undefined") {
           // Flutter WebView용
-          window.mapTilesloaded.postMessage("mapTilesloaded");
+          const payload = JSON.stringify({
+            lat: center.getLat(),
+            lng: center.getLng(),
+          });
+          window.mapTilesloaded.postMessage(payload);
         }
       } catch (error) {
         console.log("Error tilesloaded", error);
