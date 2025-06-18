@@ -18,7 +18,7 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
 }
 
 /** 선택된 스토어를 변경하는 함수 */
-function changeSelectStore() {
+function changeSelectStoreMaker() {
   const findStoreEls = Array.from(document.getElementsByClassName("storeId"));
 
   findStoreEls.forEach((storeEl) => {
@@ -261,7 +261,7 @@ function setBounds() {
     // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
     map.setBounds(bounds);
     selectedStoreId = Number(storeId);
-    changeSelectStore();
+    changeSelectStoreMaker();
     // map.setLevel(3); // 필요하다면 사용
   } catch (error) {
     console.log("Error setBounds", error);
@@ -336,6 +336,6 @@ document.addEventListener("click", (e) => {
     if (typeof window.changeSelectStore !== "undefined") {
       window.changeSelectStore.postMessage(selectedStoreId);
     }
-    changeSelectStore();
+    changeSelectStoreMaker();
   }
 });
