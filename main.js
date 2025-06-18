@@ -115,6 +115,7 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
   });
 
   setTimeout(() => {
+    const el = document.getElementById(storeId);
     if (el) {
       el.addEventListener("click", function () {
         // customOverlay.setMap(null); // 오버레이 닫기
