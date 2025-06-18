@@ -17,6 +17,32 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
   return Math.round(d); // 미터 단위로 반환
 }
 
+/** 선택된 스토어를 변경하는 함수 */
+function changeSelectStore() {
+  const findStoreEls = Array.from(document.getElementsByClassName("storeId"));
+
+  findStoreEls.forEach((storeEl) => {
+    const currentStoreId = Number(storeEl.getAttribute("data-store-id"));
+    const isSelected = currentStoreId === selectedStoreId;
+
+    const storeNameEl = storeEl.querySelector(".storeName");
+    const storeImgEl = storeEl.querySelector(".storeImg");
+
+    if (storeNameEl) {
+      storeNameEl.style.backgroundColor = isSelected ? "#d2ff53" : "#E3E3E3";
+    }
+
+    if (storeImgEl) {
+      const isMain = storeEl.getAttribute("data-is-main") === "true";
+      if (isMain) {
+        storeImgEl.src = isSelected ? mainMarkerOnSrc : mainMarkerOffSrc;
+      } else {
+        storeImgEl.src = isSelected ? subMarkerOnSrc : subMarkerOffSrc;
+      }
+    }
+  });
+}
+
 const params = new URLSearchParams(window.location.search);
 const appKey = params.get("appKey");
 const lat = params.get("lat");
@@ -234,7 +260,9 @@ function setBounds() {
     // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
     // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
     map.setBounds(bounds);
-    map.setLevel(3); // 필요하다면 사용
+    selectedStoreId = Number(storeId);
+    changeSelectStore();
+    // map.setLevel(3); // 필요하다면 사용
   } catch (error) {
     console.log("Error setBounds", error);
     if (typeof window.mapError !== "undefined") {
@@ -308,28 +336,6 @@ document.addEventListener("click", (e) => {
     if (typeof window.changeSelectStore !== "undefined") {
       window.changeSelectStore.postMessage(selectedStoreId);
     }
-    const findStoreEls = Array.from(document.getElementsByClassName("storeId"));
-
-    findStoreEls.forEach((storeEl) => {
-      const currentStoreId = Number(storeEl.getAttribute("data-store-id"));
-      const isSelected = currentStoreId === selectedStoreId;
-
-      const storeNameEl = storeEl.querySelector(".storeName");
-      const storeImgEl = storeEl.querySelector(".storeImg");
-
-      if (storeNameEl) {
-        storeNameEl.style.backgroundColor = isSelected ? "#d2ff53" : "#E3E3E3";
-      }
-
-      if (storeImgEl) {
-        const isMain = storeEl.getAttribute("data-is-main") === "true";
-        if (isMain) {
-          storeImgEl.src = isSelected ? mainMarkerOnSrc : mainMarkerOffSrc;
-        } else {
-          storeImgEl.src = isSelected ? subMarkerOnSrc : subMarkerOffSrc;
-        }
-      }
-    });
-    return;
+    changeSelectStore();
   }
 });
