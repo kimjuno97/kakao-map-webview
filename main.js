@@ -115,8 +115,6 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
   });
 
   setTimeout(() => {
-    const el = document.getElementById(storeId);
-    console.log(">>>>>>> el", el);
     if (el) {
       el.addEventListener("click", function () {
         // customOverlay.setMap(null); // 오버레이 닫기
@@ -133,7 +131,7 @@ function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
         // });
 
         selectedStoreId = storeId;
-        const findStoreEls = el.getElementByClassName("storeId");
+        const findStoreEls = document.getElementByClassName("storeId");
 
         for (let i = 0; i < findStoreEls.length; i++) {
           const storeEl = findStoreEls[i];
