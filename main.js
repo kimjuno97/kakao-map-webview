@@ -1,3 +1,5 @@
+// guide: https://apis.map.kakao.com/web/sample/addMarkerClickEvent/
+
 const params = new URLSearchParams(window.location.search);
 const appKey = params.get("appKey");
 const lat = params.get("lat");
@@ -23,6 +25,10 @@ const mainMarkerOffSrc = "https://i.ibb.co/PGLrxysb/main-marker-off.png";
 const subMarkerOnSrc = "https://i.ibb.co/GQP8tgVB/sub-marker-on.png";
 const subMarkerOffSrc = "https://i.ibb.co/8gdYHvcB/sub-marker-off.png";
 
+let selectedStoreId = storeId;
+let mainCustomOverlay;
+let subCustomOverlay = [];
+
 function createMainMarkerImage(isOn) {
   const src = isOn ? mainMarkerOnSrc : mainMarkerOffSrc;
   const imageSize = new kakao.maps.Size(48, 56);
@@ -37,7 +43,7 @@ function createSubMarkerImage(isOn) {
   return new kakao.maps.MarkerImage(src, imageSize, imageOption);
 }
 
-function createIwContent({ storeName, isOn, isMain }) {
+function createIwContent({ storeName, isOn, isMain, storeId }) {
   const bgColor = isOn ? "#d2ff53" : "#E3E3E3";
   const markerSrc = isMain
     ? isOn
@@ -48,7 +54,7 @@ function createIwContent({ storeName, isOn, isMain }) {
     : subMarkerOffSrc;
 
   return `
-   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+   <div id="${storeId}" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <div
       style="
         padding: 6px;
@@ -90,6 +96,43 @@ function createIwContent({ storeName, isOn, isMain }) {
   `;
 }
 
+function renderOverlay({ storeName, storeId, isOn, isMain, position }) {
+  const iwContent = createIwContent({
+    storeName,
+    isOn,
+    isMain,
+    storeId,
+  });
+
+  const customOverlay = new kakao.maps.CustomOverlay({
+    map: map,
+    position,
+    yAnchor: 1,
+    content: iwContent,
+    clickable: true,
+  });
+
+  setTimeout(() => {
+    const el = document.getElementById(storeId);
+    console.log(">>>>>>> el", el);
+    if (el) {
+      el.addEventListener("click", function () {
+        customOverlay.setMap(null); // 오버레이 닫기
+        // 상태값만 변경
+        selectedStoreId = storeId;
+        // 전체 오버레이를 상태에 맞게 다시 그리기
+        renderOverlay({
+          storeName,
+          isOn,
+          isMain,
+          storeId,
+          position,
+        });
+      });
+    }
+  }, 0);
+}
+
 script.onload = () => {
   kakao.maps.load(() => {
     /** 지도 */
@@ -103,26 +146,27 @@ script.onload = () => {
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
-    // const markerImage = createMainMarkerImage(true);
 
-    // const marker = new kakao.maps.Marker({
-    //   position: center,
-    //   image: markerImage,
-    // });
-
-    // marker.setMap(map);
-
+    renderOverlay({
+      storeId,
+      storeName,
+      isOn: selectedStoreId === storeId,
+      isMain: true,
+      position: center,
+    });
     const iwContent = createIwContent({
       storeName: storeName,
-      isOn: true,
+      isOn: selectedStoreId === storeId,
       isMain: true,
+      storeId: storeId,
     });
 
-    const customOverlay = new kakao.maps.CustomOverlay({
+    mainCustomOverlay = new kakao.maps.CustomOverlay({
       map: map,
       position: center,
       yAnchor: 1,
       content: iwContent,
+      clickable: true, // 클릭 가능하게 설정
     });
 
     setZoomable(true);
@@ -223,36 +267,14 @@ function fetchNearbyEscapeRooms(distance) {
 
           const position = new kakao.maps.LatLng(room.y, room.x);
 
-          // const markerImage = createSubMarkerImage(false);
-
-          // const marker = new kakao.maps.Marker({
-          //   position: position,
-          //   image: markerImage,
-          // });
-
-          // marker.setMap(map);
-
-          const iwContent = createIwContent({
-            storeName: storeName,
-            isOn: true,
+          renderOverlay({
+            storeId: room.storeId,
+            storeName: room.title,
+            isOn: selectedStoreId === room.storeId,
             isMain: false,
+            position,
           });
-
-          const customOverlay = new kakao.maps.CustomOverlay({
-            map: map,
-            position: position,
-            yAnchor: 1,
-            content: iwContent,
-          });
-
-          // kakao.maps.event.addListener(marker, "mouseover", () => {});
-
-          // kakao.maps.event.addListener(marker, "mouseout", () => {
-          //   infoWindow.close();
-          // });
         });
-
-        // map.setBounds(bounds);
       }
     })
     .catch((error) => {
