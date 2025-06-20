@@ -50,6 +50,8 @@ const lng = params.get("lng");
 const storeId = params.get("storeId");
 const accessToken = params.get("accessToken");
 const storeName = params.get("storeName") || "탈출방";
+const isDraggable = params.get("isDraggable") === "false" ? false : true;
+const isZoomable = params.get("isZoomable") === "false" ? false : true;
 
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
@@ -205,7 +207,8 @@ script.onload = () => {
       clickable: true, // 클릭 가능하게 설정
     });
 
-    setZoomable(true);
+    setZoomable(isZoomable);
+    setDraggable(isDraggable);
     bounds.extend(center);
 
     fetchNearbyEscapeRooms(300);
