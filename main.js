@@ -278,12 +278,6 @@ function setBounds() {
 
 window.setBounds = setBounds;
 
-function setZoomable(zoomable) {
-  map.setZoomable(zoomable);
-}
-
-window.setZoomable = setZoomable;
-
 function fetchNearbyEscapeRooms(distance) {
   // 1. 쿼리 파라미터 처리
   const queryParams = new URLSearchParams();
@@ -344,3 +338,17 @@ document.addEventListener("click", (e) => {
     changeSelectStoreMaker();
   }
 });
+
+function setZoomable(zoomable) {
+  map.setZoomable(zoomable);
+}
+
+window.setZoomable = setZoomable;
+
+// 버튼 클릭에 따라 지도 이동 기능을 막거나 풀고 싶은 경우에는 map.setDraggable 함수를 사용합니다
+function setDraggable(draggable) {
+  // 마우스 드래그로 지도 이동 가능여부를 설정합니다
+  map.setDraggable(draggable);
+}
+
+window.setDraggable = setZoomable;
