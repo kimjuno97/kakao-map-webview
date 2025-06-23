@@ -53,6 +53,11 @@ const storeName = params.get("storeName") || "탈출방";
 const isDraggable = params.get("isDraggable") === "false" ? false : true;
 const isZoomable = params.get("isZoomable") === "false" ? false : true;
 
+console.log("============== 카카오맵 설정 ========");
+console.log("isDraggable", isDraggable);
+console.log("isZoomable", isZoomable);
+console.log("============== 카카오맵 설정 ========");
+
 const levelStr = params.get("level");
 const level = levelStr ? parseInt(levelStr, 10) : 3;
 const isOnlyMarker = params.get("isOnlyMarker") === "true";
