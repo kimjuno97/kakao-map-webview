@@ -43,6 +43,14 @@ function changeSelectStoreMaker() {
   });
 }
 
+/** URL 파라미터에서 boolean 값을 가져오는 함수 */
+function getBooleanParam(value) {
+  if (value === "true" || value === true) return true;
+  if (value === "false" || value === false) return false;
+  // 기본값 (값이 없거나, "true", "false", true, false가 아닐 때)
+  return true; // 또는 원하는 기본값 (false도 가능)
+}
+
 const params = new URLSearchParams(window.location.search);
 const appKey = params.get("appKey");
 const lat = params.get("lat");
@@ -50,8 +58,8 @@ const lng = params.get("lng");
 const storeId = params.get("storeId");
 const accessToken = params.get("accessToken");
 const storeName = params.get("storeName") || "탈출방";
-const isDraggable = params.get("isDraggable") === "false" ? false : true;
-const isZoomable = params.get("isZoomable") === "false" ? false : true;
+const isDraggable = getBooleanParam(params.get("isDraggable"));
+const isZoomable = getBooleanParam(params.get("isZoomable"));
 
 console.log("============== 카카오맵 설정 ========");
 console.log("isDraggable", isDraggable);
