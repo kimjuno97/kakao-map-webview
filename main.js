@@ -187,8 +187,12 @@ script.onload = () => {
 
     const mapOption = {
       center: center,
+      draggable: isDraggable,
+      zoomable: isZoomable,
       level,
     };
+
+    console.log("## mapOption", mapOption);
 
     map = new kakao.maps.Map(mapContainer, mapOption);
     bounds = new kakao.maps.LatLngBounds();
