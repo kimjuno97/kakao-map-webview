@@ -219,8 +219,10 @@ script.onload = () => {
       clickable: true, // 클릭 가능하게 설정
     });
 
-    setZoomable(isZoomable);
-    setDraggable(isDraggable);
+    // 왜인지 동작안함.
+    // setZoomable(isZoomable);
+    // setDraggable(isDraggable);
+
     bounds.extend(center);
 
     fetchNearbyEscapeRooms(300);
