@@ -17,8 +17,6 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
   return Math.round(d); // 미터 단위로 반환
 }
 
-zIndex = 1;
-
 /** 선택된 스토어를 변경하는 함수 */
 function changeSelectStoreMaker() {
   const findStoreEls = Array.from(document.getElementsByClassName("storeId"));
@@ -29,9 +27,6 @@ function changeSelectStoreMaker() {
 
     const storeNameEl = storeEl.querySelector(".storeName");
     const storeImgEl = storeEl.querySelector(".storeImg");
-
-    storeEl.style.zIndex = zIndex;
-    zIndex++;
 
     if (storeNameEl) {
       storeNameEl.style.backgroundColor = isSelected ? "#d2ff53" : "#E3E3E3";
@@ -349,10 +344,14 @@ function fetchNearbyEscapeRooms(distance) {
 
 window.fetchNearbyEscapeRooms = fetchNearbyEscapeRooms;
 
+zIndex = 1;
+
 document.addEventListener("click", (e) => {
   const overlayEl = e.target.closest(".my-overlay");
 
   console.log("클릭된 overlay element", overlayEl);
+  overlayEl.style.zIndex = zIndex;
+  zIndex++;
   if (overlayEl) {
     selectedStoreId = Number(overlayEl.getAttribute("data-store-id"));
     if (typeof window.changeSelectStore !== "undefined") {
