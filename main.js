@@ -30,7 +30,7 @@ function changeSelectStoreMaker() {
     const storeNameEl = storeEl.querySelector(".storeName");
     const storeImgEl = storeEl.querySelector(".storeImg");
 
-    overlayEl.style.zIndex = zIndex;
+    storeEl.style.zIndex = zIndex;
     zIndex++;
 
     if (storeNameEl) {
