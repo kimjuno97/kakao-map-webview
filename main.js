@@ -350,8 +350,15 @@ document.addEventListener("click", (e) => {
   const overlayEl = e.target.closest(".my-overlay");
 
   console.log("클릭된 overlay element", overlayEl);
+  if (overlayEl && overlayEl.parentElement) {
+    overlayEl.parentElement.style.zIndex = zIndex;
+    zIndex++;
+  } else {
+    console.log("my-overlay 요소 또는 그 부모 요소를 찾을 수 없습니다.");
+  }
+
   overlayEl.style.zIndex = zIndex;
-  zIndex++;
+
   if (overlayEl) {
     selectedStoreId = Number(overlayEl.getAttribute("data-store-id"));
     if (typeof window.changeSelectStore !== "undefined") {
